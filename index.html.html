@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html dir="rtl" lang="he">
+<head>
+<meta charset="UTF-8">
+<title>מחוון מעקב — ביצוע תכנית עבודה אגפית</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Arial,sans-serif;background:#f8f9fa;color:#1a1a1a;padding:16px 12px;direction:rtl}
+#app{max-width:1000px;margin:0 auto;display:flex;flex-direction:row-reverse;gap:0;align-items:flex-start}
+.app-title{font-size:20px;font-weight:600;margin-bottom:4px}
+.app-sub{font-size:13px;color:#666;margin-bottom:16px}
+.meta-row{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:20px;padding:14px;background:#fff;border-radius:10px;border:1px solid #e5e7eb}
+.mf{display:flex;flex-direction:column;gap:4px;flex:1;min-width:140px}
+.mf label{font-size:12px;color:#666}
+.mf input,.mf select{padding:6px 8px;border:1px solid #d1d5db;border-radius:6px;font-size:13px;background:#fff;font-family:Arial,sans-serif}
+.mf input[type=date]{direction:ltr;text-align:left}
+.nav{display:flex;flex-direction:column;gap:6px;width:150px;flex-shrink:0;padding:12px 0 12px 12px;border-left:none;position:sticky;top:16px;align-self:flex-start}
+.nav::-webkit-scrollbar{display:none}
+.tab{padding:10px 14px;font-size:15px;cursor:pointer;border:1.5px solid #e5e7eb;background:#fff;color:#444;border-radius:10px;font-family:Arial,sans-serif;white-space:nowrap;text-align:right;width:100%;display:block;box-shadow:0 1px 3px rgba(0,0,0,0.07);transition:all 0.15s;font-weight:500;line-height:1.4}
+.tab:hover{color:#1d4ed8;background:#eff6ff;border-color:#93c5fd;box-shadow:0 2px 6px rgba(59,130,246,0.15);transform:translateX(-2px)}
+.tab.on{color:#fff;background:linear-gradient(135deg,#3b82f6,#1d4ed8);border-color:#1d4ed8;font-weight:700;box-shadow:0 4px 12px rgba(59,130,246,0.4);transform:translateX(-2px)}
+.shdr{margin-bottom:16px;padding-bottom:12px;border-bottom:1px solid #e5e7eb}
+.stitle{font-size:16px;font-weight:600}
+.sdesc{font-size:13px;color:#666;margin-top:4px}
+.srow{display:flex;align-items:center;gap:12px;margin-top:10px;flex-wrap:wrap}
+.spill{display:inline-flex;align-items:center;gap:6px;padding:5px 12px;border-radius:6px;font-size:13px;font-weight:600}
+.smini{font-size:11px;color:#888}
+.pmini{flex:1;max-width:200px;height:5px;background:#e5e7eb;border-radius:3px;overflow:hidden}
+.pmini-f{height:100%;border-radius:3px;transition:width 0.4s}
+.scbadge{display:inline-block;font-size:11px;padding:3px 8px;background:#f3f4f6;border:1px solid #e5e7eb;border-radius:6px;color:#666;margin-top:6px}
+.cc{background:#fff;border:1px solid #e5e7eb;border-radius:10px;padding:14px;margin-bottom:10px}
+.cc.cl{border-color:#d1d5db;background:#f9fafb}
+.ctop{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;margin-bottom:8px}
+.ctitle{font-size:14px;font-weight:600}
+.cbadge{font-size:11px;padding:2px 8px;border-radius:6px;white-space:nowrap;flex-shrink:0}
+.cdesc{font-size:12.5px;color:#555;margin-bottom:10px;line-height:1.55}
+.citems{display:flex;flex-direction:column;gap:6px;margin-bottom:10px}
+.ci{display:flex;align-items:center;gap:10px;padding:9px 12px;background:#fff;border:1px solid #e5e7eb;border-radius:8px;cursor:pointer;user-select:none;transition:all 0.12s}
+.ci:hover{border-color:#9ca3af}
+.ci.on{background:#dcfce7;border-color:#22c55e}
+.bx{width:18px;height:18px;border:1.5px solid #d1d5db;border-radius:4px;flex-shrink:0;display:flex;align-items:center;justify-content:center;background:#fff}
+.ci.on .bx{background:#22c55e;border-color:#22c55e}
+.mk{width:10px;height:10px;opacity:0}
+.ci.on .mk{opacity:1}
+.clbl{font-size:13px;flex:1}
+.ci.on .clbl{color:#166534;font-weight:600}
+.cpbar{display:flex;align-items:center;gap:10px;margin-bottom:10px;padding:8px 12px;background:#fff;border-radius:8px;border:1px solid #e5e7eb}
+.cpb{flex:1;height:6px;background:#e5e7eb;border-radius:3px;overflow:hidden}
+.cpf{height:100%;border-radius:3px;transition:width 0.3s;background:#22c55e}
+.cpl{font-size:12px;color:#888;white-space:nowrap}
+.rrow{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px}
+.rb{padding:7px 10px;font-size:12px;border:1px solid #d1d5db;border-radius:6px;cursor:pointer;background:#f9fafb;color:#555;font-family:Arial,sans-serif;flex:1;text-align:center;transition:all 0.12s;min-width:80px}
+.rb:hover{border-color:#9ca3af;color:#111}
+.rb.sr{background:#ef4444;border-color:#b91c1c;color:#fff;font-weight:700}
+.rb.sy{background:#eab308;border-color:#a16207;color:#fff;font-weight:700}
+.rb.sg{background:#22c55e;border-color:#15803d;color:#fff;font-weight:700}
+.rb.sgd{background:#14532d;border-color:#052e16;color:#fff;font-weight:700}
+.rb.so{background:#f97316;border-color:#c2410c;color:#fff;font-weight:700}
+.rb.sna{background:#f3f4f6;border-color:#9ca3af;color:#374151;font-weight:600}
+
+.btn-export{padding:8px 10px;font-size:13px;border:1.5px solid #3b82f6;border-radius:8px;cursor:pointer;background:#eff6ff;color:#1d4ed8;font-family:Arial,sans-serif;font-weight:600;display:block;width:100%;text-align:center}
+.btn-export:hover{background:#dbeafe}
+.btn-import{padding:8px 10px;font-size:13px;border:1.5px solid #d1d5db;border-radius:8px;cursor:pointer;background:#f9fafb;color:#374151;font-family:Arial,sans-serif;font-weight:600;display:block;width:100%;text-align:center}
+.btn-import:hover{background:#f3f4f6}
+#import-file{display:none}
+.lhint{font-size:12px;color:#555;margin-bottom:8px;padding:6px 10px;background:#f9fafb;border-radius:6px;border-right:3px solid #d1d5db;min-height:32px;line-height:1.5}
+.nlbl{font-size:11.5px;color:#888;margin-bottom:3px}
+.narea{width:100%;padding:7px 10px;font-size:12.5px;border:1px solid #e5e7eb;border-radius:6px;font-family:Arial,sans-serif;color:#111;background:#f9fafb;resize:vertical;min-height:52px;direction:rtl}
+.narea:focus{outline:none;border-color:#9ca3af}
+.sumtop{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px;margin-bottom:20px}
+.sumc{background:#fff;border-radius:8px;padding:12px;text-align:center;border:1px solid #e5e7eb}
+.sumsn{font-size:11px;color:#888;margin-bottom:6px;line-height:1.4}
+.sumpct{font-size:22px;font-weight:600}
+.sumbar{height:4px;background:#e5e7eb;border-radius:2px;margin-top:8px;overflow:hidden}
+.sumbf{height:100%;border-radius:2px;transition:width 0.4s}
+.sumlbl{font-size:11px;color:#888;margin-top:4px}
+.ovbox{background:#fff;border-radius:10px;padding:16px;margin-bottom:20px;border:1px solid #e5e7eb}
+.ovtitle{font-size:14px;font-weight:600;margin-bottom:10px}
+.ovbar{height:10px;background:#e5e7eb;border-radius:5px;overflow:hidden;margin-bottom:6px}
+.ovfill{height:100%;border-radius:5px;transition:width 0.4s}
+.ovcap{font-size:12px;color:#888}
+.dets{border:1px solid #e5e7eb;border-radius:10px;padding:14px;margin-bottom:10px}
+.detsn{font-size:13px;font-weight:600;margin-bottom:10px;display:flex;justify-content:space-between;align-items:center}
+.drow{display:flex;align-items:center;gap:8px;margin-bottom:6px}
+.dn{font-size:12px;color:#888;flex:2;min-width:0}
+.db{flex:1;height:5px;background:#e5e7eb;border-radius:3px;overflow:hidden}
+.dbf{height:100%;border-radius:3px}
+.dba{font-size:11px;padding:1px 6px;border-radius:4px;white-space:nowrap;flex-shrink:0}
+.btnrow{display:flex;gap:8px;justify-content:flex-end;padding-top:12px;border-top:1px solid #e5e7eb;margin-top:16px}
+.btng{padding:7px 14px;font-size:13px;border:1px solid #d1d5db;border-radius:6px;cursor:pointer;background:#fff;color:#111;font-family:Arial,sans-serif}
+.btng:hover{background:#f3f4f6}
+</style>
+</head>
+<body>
+<div id="app">
+  <div id="main" style="flex:1;min-width:0;">
+  <h2 class="app-title">מחוון מעקב — ביצוע תכנית עבודה אגפית</h2>
+  <p class="app-sub">כלי לבדיקה עצמית לאורך כל שלבי תכנית העבודה, משלב התכנון ועד הערכת התוצאות</p>
+  <div class="meta-row">
+    <div class="mf"><label>אגף</label><select id="md"><option value="">— בחר/י אגף —</option><option>קדם יסודי</option><option>יסודי</option><option>על יסודי</option><option>חמד</option><option>חינוך מיוחד</option><option>שפ"י</option><option>ילדים ונוער בסיכון</option><option>חברה ערבית</option><option>תוכנית 360</option><option>יחידה של הפיתוח המקצועי</option><option>מינהל חברה ונוער</option></select></div>
+    <div class="mf"><label>מחוז</label><input type="text" id="mz" placeholder="חיפה"></div>
+    <div class="mf"><label>שנת לימודים</label><select id="my"><option>תשפ"ו</option><option>תשפ"ז</option><option>תשפ"ח</option><option>תשפ"ט</option><option>תש"צ</option></select></div>
+    <div class="mf"><label>תאריך מילוי</label><input type="date" id="mdt"></div>
+  </div>
+  <div id="sc"></div>
+  </div><!-- /main -->
+  <div class="nav" id="nav"></div>
+</div>
+<script>
+const F=['#ef4444','#f97316','#eab308','#22c55e'];
+const BG=['#fee2e2','#ffedd5','#fef9c3','#dcfce7','#14532d'];
+const TX=['#991b1b','#9a3412','#854d0e','#166534','#ffffff'];
+function i2(v){return[0,2,3][v];}
+function fc(p){return p<25?F[0]:p<50?F[1]:p<75?F[2]:F[3];}
+function fb(p){return p<25?BG[0]:p<50?BG[1]:p<75?BG[2]:BG[3];}
+function ft(p){return p<25?TX[0]:p<50?TX[1]:p<75?TX[2]:TX[3];}
+function fl(p){if(p===null)return'לא הוזן';return p<25?'לא בוצע':p<50?'בתחילת הדרך':p<75?'בתהליך':'בוצע';}
+const CLI=['אוכלוסיית יעד — עובדי הוראה','אוכלוסיית יעד — לומדים','משאבי תקציב: שעות תקן, תקציב גפ"ן, שעות תקציב'];
+const LB2A=['כלל לא','במידה חלקית','באופן מלא'];
+const LB2B=['טרם בוצע','בוצע באופן חלקי','בוצע באופן מלא'];
+const LB4=['לא בוצע','בתחילת הדרך','בתהליך','בוצע','מצוין'];
+const ST=[
+  {id:'a',tab:'א. תכנון',sc:2,lb:LB2A,sn:'סרגל: 0–2',title:'שלב א׳ — איכות תכנית העבודה',desc:'האם התכנית מנוסחת בצורה ברורה, מדידה ומקצועית?',cr:[
+    {id:'p0',tp:'cl',title:'בסיס נתונים',desc:'תכנית העבודה האגפית מבוססת על מאגר נתונים עדכני. סמן/י את מקורות הנתונים הקיימים בתכנית:'},
+    {id:'p1',title:'משימות מרכזיות ברורות ומקושרות ליעדים',desc:'המשימות המרכזיות מוגדרות, ממוקדות, ומקושרות ישירות לאחת המטרות/יעדים האגפיים',lv:['המשימות אינן מוגדרות בבהירות ואינן מקושרות ליעדים','חלק מהמשימות מוגדרות ומקושרות ליעדים, אך לא כולן','כל המשימות מוגדרות בבהירות, ממוקדות ומקושרות ליעדים האגפיים']},
+    {id:'p2',title:'תתי-משימות ופעולות מפורטות',desc:'כל משימה מרכזית מחולקת לפעולות קונקרטיות וברות-ביצוע',lv:['תתי-משימות אינן מפורטות או חסרות לחלוטין','חלק מהמשימות מפורטות לפעולות קונקרטיות, אך לא כולן','כל המשימות מפורטות לפעולות קונקרטיות וברות-ביצוע']},
+    {id:'p3',title:'מדדי תוצאה מדידים',desc:'מדד התוצאה מבטא שינוי נמדד ולא תיאור פעולה — מה ישתנה, לא מה ייעשה',lv:['אין מדדי תוצאה מדידים, או שהמדדים מתארים פעולות בלבד','חלק מהמדדים מדידים וכמותיים, חלקם עדיין כלליים','כל מדדי התוצאה מדידים, כמותיים ובעלי בסיס השוואה']},
+    {id:'p4',title:'מדדי תפוקה ברורים לכל משימה',desc:'מדדי תפוקה מוגדרים כאינדיקטורים כמותיים המודדים את התוצרים הישירים של פעילות, משימה או תהליך המשקפים את ליבת העשייה',lv:['אין מדדי תפוקה כמותיים, או שאינם קשורים לתוצרים הישירים של המשימה','חלק מהמשימות כוללות מדדי תפוקה כמותיים הניתנים לאימות','כל משימה כוללת מדדי תפוקה כמותיים ברורים המשקפים את ליבת העשייה']},
+    {id:'p5',title:'חלוקת אחריות לפי שמות',desc:'לכל משימה הוגדר אחראי ספציפי בשם — לא "האגף" או "הצוות"',lv:['אין הגדרת אחריות, או שמוטלת על "האגף" ללא שם','חלק מהמשימות כוללות שם אחראי ספציפי, אחרות לא','כל משימה כוללת שם אחראי ספציפי']},
+    {id:'p6',title:'לוח זמנים ריאלי ומלא',desc:'תאריכי התחלה וסיום קיימים לכל משימה ומשקפים ריאליות ביצועית',lv:['תאריכים חסרים לחלוטין, או קיימים לפחות מחצי המשימות','תאריכים קיימים לרוב המשימות, אך חלקם חלקיים או אינם ריאליים','תאריכים מלאים וריאליים לכל המשימות, מתואמים ביניהן']}
+  ]},
+  {id:'b',tab:'ב. היערכות',sc:2,lb:LB2B,sn:'סרגל: 0–2 (טרם בוצע / חלקי / מלא)',title:'שלב ב׳ — היערכות לביצוע',desc:'מידת המוכנות לביצוע בשטח',cr:[
+    {id:'rp1',title:'הקצאת משאבים מוגדרת',desc:'כוח אדם, תקציב, זמן וכלים הוקצו לכל משימה לפני הפתיחה',lv:['טרם הוקצו משאבים לביצוע','הוקצו משאבים לחלק מהמשימות בלבד','הוקצו משאבים לכלל המשימות באופן מלא']},
+    {id:'rp2',title:'יידוע הגורמים השותפים לביצוע התוכנית',desc:'כל הגורמים השותפים לביצוע מכירים את התוכנית ואת חלקם בה',lv:['הגורמים השותפים טרם יודעו על התוכנית','חלק מהגורמים השותפים יודעו על תפקידם','כל הגורמים השותפים יודעו ומכירים את תפקידם בתוכנית']},
+    {id:'rp4',title:'צמתי בקרה, הערכה ועדכון',desc:'מועדי ביניים לבדיקת התקדמות הוגדרו ורשומים בלוח הגאנט',lv:['צמתי בקרה טרם הוגדרו','הוגדר צומת בקרה אחד בלבד','מספר צמתי בקרה הוגדרו ורשומים בלוח הגאנט']}
+  ]},
+  {id:'c',tab:'ג. ביצוע',sc:4,lb:LB4,sn:null,title:'שלב ג׳ — ביצוע ויישום',desc:'האם הביצוע מתנהל כמתוכנן בשטח?',cr:[
+    {id:'im1',title:'עמידה בלוח הזמנים',desc:'הפעולות מתבצעות בהתאם לתאריכים שנקבעו בתכנית',lv:['רוב הפעולות מאחרות משמעותית','איחורים ניכרים בחלק מהמשימות','עמידה חלקית, עם עיכובים סבירים','כמעט כל הפעולות מתבצעות בזמן','עמידה מלאה בלוח הזמנים']},
+    {id:'im2',title:'יישום תתי-המשימות כמתוכנן',desc:'הפעולות שתוכננו מיושמות בשטח כפי שהוגדרו בתכנית',lv:['הפעולות לא מיושמות בשטח','פעולות בודדות מיושמות (פחות מ-25%)','יישום חלקי (כ-50% מהפעולות)','רוב הפעולות מיושמות כמתוכנן (75%+)','כל הפעולות מיושמות']},
+    {id:'im3',title:'שיתוף פעולה עם גורמי ממשק',desc:'גורמים פנימיים וחיצוניים מעורבים ופועלים יחד בצורה יעילה',lv:['אין שיתוף פעולה','שיתוף פעולה מינימלי ומזדמן','שיתוף פעולה חלקי','שיתוף פעולה סדיר עם כל הגורמים','שיתוף פעולה פורה עם יזמות']},
+    {id:'im4',title:'תיעוד ורישום שוטף',desc:'הביצוע מתועד שוטפות — פגישות, ממצאים, החלטות',lv:['אין תיעוד של ממש','תיעוד חלקי ולא שיטתי','תיעוד קיים אך לא מעודכן','תיעוד שוטף ומסודר','תיעוד מלא, נגיש, ומשמש לקבלת החלטות']}
+  ]},
+  {id:'d',tab:'ד. ניטור',sc:4,lb:LB4,sn:null,title:'שלב ד׳ — ניטור ומעקב',desc:'האם אנחנו שולטים על ההתקדמות ומגיבים בזמן?',cr:[
+    {id:'mo1',title:'עדכון סטטוס ביצוע',desc:'עמודת "סטטוס ביצוע" בתכנית מעודכנת באופן שוטף',lv:['הסטטוס לא עודכן מאז ההתחלה','עדכון בתחילה ובסוף בלבד','עדכון פעם בחודש','עדכון שוטף — כל שבועיים לפחות','עדכון בזמן אמת']},
+    {id:'mo2',title:'מדידת מדדי תפוקה בפועל',desc:'מדדי התפוקה נמדדים בפועל — לא רק מסומנים',lv:['המדדים אינם נמדדים בכלל','מדידה אנקדוטלית','חלק מהמדדים נמדדים','כל מדדי התפוקה נמדדים','מדידה מלאה, כולל השוואה לבסיס']},
+    {id:'mo3',title:'זיהוי חסמים ומתן מענה',desc:'חסמים ואתגרים מזוהים מוקדם ומטופלים באופן פעיל',lv:['חסמים מזוהים רק לאחר כשל','חסמים מזוהים אך לא מטופלים','חלק מהחסמים מזוהים ומטופלים','מרבית החסמים מזוהים מוקדם','מנגנון זיהוי יזום ומענה מהיר']},
+    {id:'mo4',title:'עדכון ותיאום בעת שינוי',desc:'כאשר נדרש שינוי, התכנית מתעדכנת',lv:['לא בוצעו התאמות גם כשנדרש','שינויים בוצעו אך לא עודכנו בתכנית','התאמות בוצעו ועודכנו לאחר עיכוב','התכנית מתעדכנת בזמן סביר','עדכון מיידי ומסודר']},
+    {id:'mo5',title:'דיווח התקדמות לממונים',desc:'דיווח שוטף על סטטוס ביצוע לממונים ושותפים',lv:['אין דיווח שוטף','דיווח רק כאשר יש בעיה','דיווח מזדמן','דיווח שיטתי ומסודר','דיווח שיטתי, ממוקד בנתונים']}
+  ]},
+  {id:'e',tab:'ה. הערכת תוצאות',sc:2,lb:LB2B,sn:'סרגל: 0–2 (טרם בוצע / חלקי / מלא)',title:'שלב ה׳ — הערכת תוצאות',desc:'מה השגנו? מה למדנו לשנה הבאה?',cr:[
+    {id:'ev1',title:'מדידת מדדי התוצאה בפועל',desc:'מדדי התוצאה שנקבעו בתכנית נמדדו ובהלימה להשגת היעד',lv:['מדדי התוצאה טרם נמדדו','מדידה חלקית — חלק מהמדדים נמדדו','כל מדדי התוצאה נמדדו ובהלימה להשגת היעד']},
+    {id:'ev2',sc:3,lb:['טרם בוצע','בוצע באופן חלקי','בוצע באופן מלא','לא רלוונטי'],title:'הערכת תכנון מול ביצוע',desc:'מתבצע ניתוח פערים וגיבוש תוכניות חלופיות',lv:['ניתוח פערים וגיבוש תוכניות חלופיות טרם בוצעו','ניתוח פערים וגיבוש תוכניות חלופיות בוצעו באופן חלקי','ניתוח פערים מלא וגיבוש תוכניות חלופיות בוצעו','לא רלוונטי לשלב זה']},
+    {id:'ev3',title:'הפקת לקחים',desc:'לקחים תפעוליים ופדגוגיים מופקים ומתועדים לשנה הבאה',lv:['הפקת לקחים טרם בוצעה','לקחים הופקו באופן חלקי','לקחים ממוקדים ומעשיים הופקו לכלל המשימות']},
+    {id:'ev5',title:'שיתוף ממצאים עם שותפים',desc:'הממצאים משותפים עם כל הגורמים הרלוונטיים',lv:['שיתוף ממצאים טרם בוצע','ממצאים שותפו באופן חלקי עם חלק מהגורמים','ממצאים שותפו עם כל הגורמים הרלוונטיים באופן מלא']}
+  ]},
+  {id:'z',tab:'סיכום כללי',sc:2,lb:[],sn:null,title:'סיכום — מבט-על',desc:'תמונה כוללת של מצב הביצוע לאורך כל שלבי תכנית העבודה',cr:[]}
+];
+const Z={r:{},n:{},k:{},a:'a'};
+function gs(id){return ST.find(s=>s.id===id);}
+function gc(id){return ST.flatMap(s=>s.cr).find(c=>c.id===id);}
+function gsc(id){return ST.find(s=>s.cr.some(c=>c.id===id));}
+function cks(id){const a=Z.k[id]||new Array(CLI.length).fill(false);const n=a.filter(Boolean).length;return n===0?0:n===CLI.length?2:1;}
+function ld(){try{const s=localStorage.getItem('wpr8');if(s){const d=JSON.parse(s);Z.r=d.r||{};Z.n=d.n||{};Z.k=d.k||{};}function exportData(){
+  const meta={
+    dept:document.getElementById('md').value,
+    district:document.getElementById('mz').value,
+    year:document.getElementById('my').value,
+    date:document.getElementById('mdt').value
+  };
+  const payload=JSON.stringify({version:'wpr8',meta,ratings:Z.r,notes:Z.n,checks:Z.k},null,2);
+  const blob=new Blob([payload],{type:'application/json'});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement('a');
+  const dept=meta.dept||'אגף';
+  const yr=meta.year||'תשפו';
+  a.href=url;
+  a.download=`מחוון_${dept}_${yr}.json`;
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+function importData(event){
+  const file=event.target.files[0];
+  if(!file)return;
+  const reader=new FileReader();
+  reader.onload=function(e){
+    try{
+      const d=JSON.parse(e.target.result);
+      if(!d.version||!d.version.startsWith('wpr')){
+        alert('קובץ לא תקין — ודאי שזהו קובץ גיבוי של המחוון');
+        return;
+      }
+      if(!confirm('טעינת הגיבוי תחליף את הנתונים הקיימים. להמשיך?'))return;
+      Z.r=d.ratings||{};
+      Z.n=d.notes||{};
+      Z.k=d.checks||{};
+      sv();
+      if(d.meta){
+        const fd=document.getElementById('md');
+        const fz=document.getElementById('mz');
+        const fy=document.getElementById('my');
+        const fdt=document.getElementById('mdt');
+        if(fd&&d.meta.dept){[...fd.options].forEach(o=>{if(o.value===d.meta.dept||o.text===d.meta.dept)o.selected=true;});}
+        if(fz&&d.meta.district)fz.value=d.meta.district;
+        if(fy&&d.meta.year){[...fy.options].forEach(o=>{if(o.value===d.meta.year||o.text===d.meta.year)o.selected=true;});}
+        if(fdt&&d.meta.date)fdt.value=d.meta.date;
+        ['md','mz','my','mdt'].forEach(id=>sm(id));
+      }
+      ren();
+      alert('הנתונים נטענו בהצלחה!');
+    }catch(err){
+      alert('שגיאה בטעינת הקובץ: '+err.message);
+    }
+    event.target.value='';
+  };
+  reader.readAsText(file);
+}
+
+[['md'],['mz'],['my'],['mdt']].forEach(([id])=>{const v=localStorage.getItem('wm8_'+id);if(!v)return;const el=document.getElementById(id);if(!el)return;if(el.tagName==='SELECT'){[...el.options].forEach(o=>{if(o.value===v||o.text===v)o.selected=true;});}else el.value=v;});}catch(e){}}
+function sv(){try{localStorage.setItem('wpr8',JSON.stringify({r:Z.r,n:Z.n,k:Z.k}));}catch(e){}}
+function sm(id){const el=document.getElementById(id);if(el)try{localStorage.setItem('wm8_'+id,el.value);}catch(e){}}
+function csc(c,s){return c.sc!=null?c.sc:s.sc;}
+function clb(c,s){return c.lb||s.lb;}
+function gsp(id){
+  const s=gs(id);if(!s||!s.cr.length)return null;
+  let total=0,count=0;
+  s.cr.forEach(c=>{
+    if(c.tp==='cl'){const v=cks(c.id);total+=v;count++;}
+    else{
+      const r=Z.r[c.id];if(r===null||r===undefined)return;
+      const mySc=csc(c,s);
+      // if criterion has a "not relevant" option (sc>2) and user picked it, skip it
+      if(c.sc!=null&&c.sc>s.sc&&r===c.sc)return;
+      // normalise to stage scale
+      const norm=Math.min(r,s.sc);
+      total+=norm;count++;
+    }
+  });
+  if(!count)return null;
+  return Math.round(total/count/s.sc*100);
+}
+function gop(){const ps=ST.filter(s=>s.id!=='z').map(s=>gsp(s.id)).filter(v=>v!==null);if(!ps.length)return null;return Math.round(ps.reduce((a,b)=>a+b,0)/ps.length);}
+function rnv(){
+  const tabs=ST.map(s=>`<button class="tab${Z.a===s.id?' on':''}" onclick="sw('${s.id}')">${s.tab}</button>`).join('');
+  const tools=`
+    <div style="margin-top:16px;border-top:1px solid #e5e7eb;padding-top:12px;display:flex;flex-direction:column;gap:6px">
+      <button class="btn-export" onclick="exportData()">💾 שמור גיבוי</button>
+      <button class="btn-import" onclick="document.getElementById('import-file').click()">📂 טען גיבוי</button>
+      <input type="file" id="import-file" accept=".json" onchange="importData(event)" style="display:none">
+      <span style="font-size:10.5px;color:#aaa;text-align:center;margin-top:4px;line-height:1.4">נשמר אוטומטית<br>בדפדפן זה</span>
+    </div>`;
+  document.getElementById('nav').innerHTML=tabs+tools;
+}
+function rhd(s){const p=s.id!=='z'?gsp(s.id):gop();const an=s.id!=='z'?s.cr.filter(c=>c.tp==='cl'?(Z.k[c.id]||[]).some(Boolean):(Z.r[c.id]!==null&&Z.r[c.id]!==undefined)).length:0;const to=s.id!=='z'?s.cr.length:0;const sn=s.sn?`<span class="scbadge">${s.sn}</span>`:'';const pi=p!==null?`<span class="spill" style="background:${fb(p)};color:${ft(p)}">${p}% — ${fl(p)}</span>`:'';const pr=s.id!=='z'?`<span class="smini">${an}/${to} סעיפים מוזנים</span><div class="pmini"><div class="pmini-f" style="width:${to?Math.round(an/to*100):0}%;background:#3b82f6"></div></div>`:'';return`<div class="shdr"><div class="stitle">${s.title} ${sn}</div><div class="sdesc">${s.desc}</div><div class="srow">${pi}${pr}</div></div>`;}
+function rcl(c){const a=Z.k[c.id]||new Array(CLI.length).fill(false);const ck=a.filter(Boolean).length,to=CLI.length,p=Math.round(ck/to*100),sc2=cks(c.id),idx=i2(sc2);const bs=ck>0?`background:${BG[idx]};color:${TX[idx]}`:'background:#f3f4f6;color:#888';const bl=ck>0?`${ck}/${to} — ${LB2A[sc2]}`:'לא הוזן';const its=CLI.map((lb,i)=>`<div class="ci${a[i]?' on':''}" onclick="tc('${c.id}',${i})"><div class="bx"><svg class="mk" viewBox="0 0 10 10" fill="none"><path d="M1.5 5L4 7.5L8.5 2.5" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span class="clbl">${lb}</span></div>`).join('');const n=Z.n[c.id]||'';return`<div class="cc cl" id="cc-${c.id}"><div class="ctop"><div class="ctitle">📊 ${c.title}</div><span class="cbadge" style="${bs}">${bl}</span></div><div class="cdesc">${c.desc}</div><div class="cpbar"><div class="cpb"><div class="cpf" style="width:${p}%"></div></div><span class="cpl">${ck} מתוך ${to} מקורות</span></div><div class="citems">${its}</div><div class="nlbl">הערה (אופציונלי)</div><textarea class="narea" placeholder="הוסף/י הבהרה..." onchange="sn('${c.id}',this.value)">${n}</textarea></div>`;}
+function rcc(c,s){if(c.tp==='cl')return rcl(c);const r=Z.r[c.id],n=Z.n[c.id]||'',hr=r!==null&&r!==undefined;const mySc=csc(c,s);const myLb=clb(c,s);const isNA=hr&&r===mySc;const idx=hr&&!isNA?(mySc===2?i2(r):r):null;const bs=hr?(isNA?'background:#f3f4f6;color:#555':`background:${BG[idx]};color:${TX[idx]}`):'background:#f3f4f6;color:#888';const bl=hr?`${r}/${mySc} — ${myLb[r]}`:'לא הוזן';const hint=hr?`<div class="lhint">${c.lv[r]}</div>`:'<div class="lhint" style="opacity:0.5">לחץ על דירוג לתיאור הרמה</div>';const hasNA=c.sc!=null&&c.sc>s.sc;
+const bc=(v,i)=>{
+  if(v!==i)return'rb';
+  // "not relevant" last option → grey, no highlight color
+  if(hasNA&&i===mySc)return'rb sna';
+  // scale-2: 0=red,1=yellow,2=green
+  if(mySc===2||(mySc===3&&hasNA))return'rb '+(['sr','sy','sg','so'][i]||'rb');
+  // scale-4: 0=red,1=orange,2=yellow,3=light-green,4=dark-green
+  return'rb '+['sr','so','sy','sg','sgd'][Math.min(i,4)];
+};const bts=myLb.map((lb,i)=>`<button class="${bc(r,i)}" onclick="rt('${c.id}',${i})">${i} — ${lb}</button>`).join('');return`<div class="cc" id="cc-${c.id}"><div class="ctop"><div class="ctitle">${c.title}</div><span class="cbadge" style="${bs}">${bl}</span></div><div class="cdesc">${c.desc}</div><div class="rrow">${bts}</div>${hint}<div class="nlbl">ראיה / הערה (אופציונלי)</div><textarea class="narea" placeholder="תאר/י ראיה, דוגמה מהשטח..." onchange="sn('${c.id}',this.value)">${n}</textarea></div>`;}
+function rsum(){const sd=ST.filter(s=>s.id!=='z');const cs=sd.map(s=>{const p=gsp(s.id),col=p!==null?fc(p):'#888';const an=s.cr.filter(c=>c.tp==='cl'?(Z.k[c.id]||[]).some(Boolean):(Z.r[c.id]!==null&&Z.r[c.id]!==undefined)).length;return`<div class="sumc"><div class="sumsn">${s.tab}</div><div class="sumpct" style="color:${p!==null?col:'#888'}">${p!==null?p+'%':'—'}</div><div class="sumbar"><div class="sumbf" style="width:${p||0}%;background:${col}"></div></div><div class="sumlbl">${an}/${s.cr.length} סעיפים</div></div>`;}).join('');const op=gop(),oc=op!==null?fc(op):'#3b82f6';const dts=sd.map(s=>{const p=gsp(s.id),col=p!==null?fc(p):'#888';const rws=s.cr.map(c=>{let cp,cc,cba;if(c.tp==='cl'){const ck=(Z.k[c.id]||[]).filter(Boolean).length;cp=Math.round(ck/CLI.length*100);cc=fc(cp);const ii=i2(cks(c.id));cba=`<span class="dba" style="background:${BG[ii]};color:${TX[ii]}">${ck}/${CLI.length}</span>`;}else{const r=Z.r[c.id],hr=r!==null&&r!==undefined;const mySc3=csc(c,s);const isNA3=hr&&c.sc!=null&&c.sc>s.sc&&r===c.sc;cp=hr&&!isNA3?Math.round(r/s.sc*100):0;cc=hr&&!isNA3?fc(cp):'#ccc';const ii=hr&&!isNA3?Math.min(mySc3===2?i2(r):r,3):null;cba=hr?(isNA3?`<span class="dba" style="background:#f3f4f6;color:#555">לא רלוונטי</span>`:`<span class="dba" style="background:${BG[ii]};color:${TX[ii]}">${r}/${s.sc}</span>`):`<span class="dba" style="background:#f3f4f6;color:#888">—</span>`;}return`<div class="drow"><div class="dn">${c.title}</div><div class="db"><div class="dbf" style="width:${cp}%;background:${cc}"></div></div>${cba}</div>`;}).join('');return`<div class="dets"><div class="detsn"><span>${s.title}</span><span style="font-size:12px;color:${p!==null?col:'#888'}">${p!==null?p+'%':'לא הוזן'}</span></div>${rws}</div>`;}).join('');const done=sd.every(s=>s.cr.every(c=>c.tp==='cl'?(Z.k[c.id]||[]).some(Boolean):(Z.r[c.id]!==null&&Z.r[c.id]!==undefined)));return`<div><div class="sumtop">${cs}</div><div class="ovbox"><div class="ovtitle">ציון כולל — כל השלבים</div><div class="ovbar"><div class="ovfill" style="width:${op||0}%;background:${oc}"></div></div><div class="ovcap">${op!==null?op+'% — '+fl(op):'טרם הוזנו נתונים'}</div></div>${dts}<div class="btnrow"><button class="btng" onclick="pr()">🖨 הדפס דוח</button><button class="btng" onclick="ca()">↺ אפס הכל</button></div></div>`;}
+function rc2(){const s=gs(Z.a);if(!s)return;let h=rhd(s);h+=s.id==='z'?rsum():s.cr.map(c=>rcc(c,s)).join('');document.getElementById('sc').innerHTML=h;s.cr.forEach(c=>{const ta=document.querySelector(`#cc-${c.id} .narea`);if(ta)ta.value=Z.n[c.id]||'';});}
+function ren(){rnv();rc2();}
+function sw(id){Z.a=id;ren();}
+function tc(cid,i){if(!Z.k[cid])Z.k[cid]=new Array(CLI.length).fill(false);Z.k[cid][i]=!Z.k[cid][i];sv();const c=gc(cid),card=document.getElementById('cc-'+cid);if(card&&c){card.outerHTML=rcl(c);const nc=document.getElementById('cc-'+cid);if(nc){const ta=nc.querySelector('.narea');if(ta)ta.value=Z.n[cid]||'';}}const h=document.querySelector('.shdr'),s=gsc(cid);if(h&&s)h.outerHTML=rhd(s);}
+function rt(cid,val){if(Z.r[cid]===val){delete Z.r[cid];}else{Z.r[cid]=val;}sv();const s=gsc(cid),c=gc(cid);if(c&&s){const card=document.getElementById('cc-'+cid);if(card){card.outerHTML=rcc(c,s);const nc=document.getElementById('cc-'+cid);if(nc){const ta=nc.querySelector('.narea');if(ta)ta.value=Z.n[cid]||'';}}const h=document.querySelector('.shdr');if(h)h.outerHTML=rhd(s);}}
+function sn(cid,val){Z.n[cid]=val;sv();}
+function ca(){if(!confirm('האם לאפס את כל הנתונים?'))return;Z.r={};Z.n={};Z.k={};sv();ren();}
+function pr(){const dept=document.getElementById('md').value,dis=document.getElementById('mz').value,yr=document.getElementById('my').value,dt=document.getElementById('mdt').value;const op=gop();const sd=ST.filter(s=>s.id!=='z');const rows=sd.map(s=>{const p=gsp(s.id);const cr=s.cr.map(c=>{let rl,lv;if(c.tp==='cl'){const a=Z.k[c.id]||[],ck=a.filter(Boolean).length;rl=`${ck}/${CLI.length} — ${LB2A[cks(c.id)]}`;lv=CLI.map((it,i)=>`${a[i]?'✓':'✗'} ${it}`).join(' | ');}else{const r=Z.r[c.id];const mySc2=csc(c,s);const myLb2=clb(c,s);rl=r!==null&&r!==undefined?`${r}/${mySc2} — ${myLb2[r]}`:'לא הוזן';lv=r!==null&&r!==undefined?(c.lv&&c.lv[r]?c.lv[r]:''):'';}return`<tr><td style="padding:5px 8px;border:1px solid #ddd;font-size:12px">${c.title}</td><td style="padding:5px 8px;border:1px solid #ddd;font-size:12px;white-space:nowrap">${rl}</td><td style="padding:5px 8px;border:1px solid #ddd;font-size:12px">${lv}</td><td style="padding:5px 8px;border:1px solid #ddd;font-size:12px">${Z.n[c.id]||''}</td></tr>`;}).join('');return`<h3 style="font-size:13px;margin:16px 0 6px">${s.title} — ${p!==null?p+'%':'לא הוזן'}</h3><table style="width:100%;border-collapse:collapse;font-family:Arial;direction:rtl"><thead><tr style="background:#f0f0f0"><th style="padding:5px 8px;border:1px solid #ddd;font-size:12px;text-align:right">קריטריון</th><th style="padding:5px 8px;border:1px solid #ddd;font-size:12px;text-align:right">דירוג</th><th style="padding:5px 8px;border:1px solid #ddd;font-size:12px;text-align:right">פירוט</th><th style="padding:5px 8px;border:1px solid #ddd;font-size:12px;text-align:right">הערה</th></tr></thead><tbody>${cr}</tbody></table>`;}).join('');const w=window.open('','_blank');w.document.write(`<!DOCTYPE html><html dir="rtl"><head><meta charset="UTF-8"><title>מחוון</title><style>body{font-family:Arial;direction:rtl;padding:24px;font-size:13px;color:#222}</style></head><body><h1 style="font-size:16px">מחוון מעקב — ביצוע תכנית עבודה אגפית</h1><p style="font-size:13px;color:#555;margin-bottom:20px">${[dept&&'אגף: '+dept,dis&&'מחוז: '+dis,yr&&'שנה: '+yr,dt&&'תאריך: '+dt].filter(Boolean).join(' | ')}</p>${op!==null?`<p style="font-size:14px;font-weight:bold;margin-bottom:16px">ציון כולל: ${op}% — ${fl(op)}</p>`:''}${rows}<p style="margin-top:24px;font-size:11px;color:#888">הופק — ${new Date().toLocaleDateString('he-IL')}</p></body></html>`);w.document.close();w.print();}
+function exportData(){
+  const meta={
+    dept:document.getElementById('md').value,
+    district:document.getElementById('mz').value,
+    year:document.getElementById('my').value,
+    date:document.getElementById('mdt').value
+  };
+  const payload=JSON.stringify({version:'wpr8',meta,ratings:Z.r,notes:Z.n,checks:Z.k},null,2);
+  const blob=new Blob([payload],{type:'application/json'});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement('a');
+  const dept=meta.dept||'אגף';
+  const yr=meta.year||'תשפו';
+  a.href=url;
+  a.download=`מחוון_${dept}_${yr}.json`;
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+function importData(event){
+  const file=event.target.files[0];
+  if(!file)return;
+  const reader=new FileReader();
+  reader.onload=function(e){
+    try{
+      const d=JSON.parse(e.target.result);
+      if(!d.version||!d.version.startsWith('wpr')){
+        alert('קובץ לא תקין — ודאי שזהו קובץ גיבוי של המחוון');
+        return;
+      }
+      if(!confirm('טעינת הגיבוי תחליף את הנתונים הקיימים. להמשיך?'))return;
+      Z.r=d.ratings||{};
+      Z.n=d.notes||{};
+      Z.k=d.checks||{};
+      sv();
+      if(d.meta){
+        const fd=document.getElementById('md');
+        const fz=document.getElementById('mz');
+        const fy=document.getElementById('my');
+        const fdt=document.getElementById('mdt');
+        if(fd&&d.meta.dept){[...fd.options].forEach(o=>{if(o.value===d.meta.dept||o.text===d.meta.dept)o.selected=true;});}
+        if(fz&&d.meta.district)fz.value=d.meta.district;
+        if(fy&&d.meta.year){[...fy.options].forEach(o=>{if(o.value===d.meta.year||o.text===d.meta.year)o.selected=true;});}
+        if(fdt&&d.meta.date)fdt.value=d.meta.date;
+        ['md','mz','my','mdt'].forEach(id=>sm(id));
+      }
+      ren();
+      alert('הנתונים נטענו בהצלחה!');
+    }catch(err){
+      alert('שגיאה בטעינת הקובץ: '+err.message);
+    }
+    event.target.value='';
+  };
+  reader.readAsText(file);
+}
+
+[['md'],['mz'],['my'],['mdt']].forEach(([id])=>{const el=document.getElementById(id);if(el)el.addEventListener('change',()=>sm(id));});
+ld();ren();
+</script>
+</body>
+</html>
